@@ -1,0 +1,23 @@
+package ru.nsu.lopatkin.dis.models.manager.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class CrackTask {
+    private String taskId;
+    private String hash;
+    private Integer wordLength;
+    private TaskStatus status;
+    private String errorMessage;
+    private List<String> data;
+}

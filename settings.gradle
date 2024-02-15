@@ -1,0 +1,5 @@
+rootProject.name = 'DIS'
+
+include 'manager'
+include 'worker'
+include 'models'
