@@ -3,10 +3,10 @@ package ru.nsu.lopatkin.dis.manager.service.storage;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ru.nsu.lopatkin.dis.models.manager.entity.CrackStatus;
 import ru.nsu.lopatkin.dis.models.manager.entity.TaskStatus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -23,8 +23,12 @@ public class CrackTaskBatchStorage {
         tasksBatchStorage.get(requestId).updateCrackTaskStatus(taskStatus, taskId);
     }
 
-    public void updateTaskStatus(String requestId, String taskId, TaskStatus taskStatus, String errorMessage) {
-        tasksBatchStorage.get(requestId).updateCrackTaskStatus(taskStatus, taskId, errorMessage);
+    public void updateErrorTask(String requestId, String taskId, String errorMessage) {
+        tasksBatchStorage.get(requestId).updateErrorCrackTask(taskId, errorMessage);
+    }
+
+    public void updateSuccessTask(String requestId, String taskId, List<String> data) {
+        tasksBatchStorage.get(requestId).updateSuccessCrackTask(taskId, data);
     }
 
     public CrackTasksBatch getCrackTasksBatchByRequestId(String requestId) {

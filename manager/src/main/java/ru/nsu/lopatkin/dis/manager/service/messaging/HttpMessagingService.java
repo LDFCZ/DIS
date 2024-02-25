@@ -39,7 +39,7 @@ public class HttpMessagingService implements MessagingService{
 
         } catch (Exception e) {
             log.error("Error during http request send, requestId: " + request.getRequestId() + " taskId: " + request.getTaskId(), e);
-            crackingLifeCycleService.updateCrackTaskState(request.getRequestId(), request.getTaskId(), TaskStatus.ERROR,
+            crackingLifeCycleService.updateErrorCrackTask(request.getRequestId(), request.getTaskId(),
                     "Error during http request send,"
                             + " requestId: " + request.getRequestId() + " taskId: " + request.getTaskId()
                             + " exception:" + e.getMessage());

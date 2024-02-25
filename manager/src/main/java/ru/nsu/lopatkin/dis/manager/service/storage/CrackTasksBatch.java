@@ -3,6 +3,7 @@ package ru.nsu.lopatkin.dis.manager.service.storage;
 import ru.nsu.lopatkin.dis.models.manager.entity.CrackTask;
 import ru.nsu.lopatkin.dis.models.manager.entity.TaskStatus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,17 @@ public class CrackTasksBatch {
         tasksBatch.put(taskId, crackTask);
     }
 
-    public void updateCrackTaskStatus(TaskStatus newStatus, String taskId, String errorMessage) {
+    public void updateErrorCrackTask(String taskId, String errorMessage) {
         CrackTask crackTask = tasksBatch.get(taskId);
-        crackTask.setStatus(newStatus);
+        crackTask.setStatus(TaskStatus.ERROR);
         crackTask.setErrorMessage(errorMessage);
+        tasksBatch.put(taskId, crackTask);
+    }
+
+    public void updateSuccessCrackTask(String taskId, List<String> data) {
+        CrackTask crackTask = tasksBatch.get(taskId);
+        crackTask.setStatus(TaskStatus.SUCCESS);
+        crackTask.setData(new ArrayList<>(data));
         tasksBatch.put(taskId, crackTask);
     }
 
