@@ -17,6 +17,8 @@ public class CrackTask {
     private String taskId;
     private String hash;
     private Integer wordLength;
+    private Integer partNumber;
+    private Integer partCount;
     private TaskStatus status;
     private String errorMessage;
     private List<String> data;

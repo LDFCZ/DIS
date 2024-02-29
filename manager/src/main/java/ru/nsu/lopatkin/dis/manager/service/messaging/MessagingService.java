@@ -8,7 +8,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface MessagingService {
 
-    @Async
     void sendTaskToWorker(PartialHashCrackingRequest request);
 
 }

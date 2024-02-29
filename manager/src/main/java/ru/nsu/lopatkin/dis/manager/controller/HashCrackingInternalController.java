@@ -16,8 +16,8 @@ public class HashCrackingInternalController {
 
     private final CrackingLifeCycleService crackingLifeCycleService;
 
-    @PostMapping("/crack/request")
-    public CrackingTaskStatusUpdateResponse startHashCracking(@RequestBody CrackingTaskStatusUpdateRequest request) {
+    @PostMapping("/update-crack-status")
+    public CrackingTaskStatusUpdateResponse updateHashCrackingState(@RequestBody CrackingTaskStatusUpdateRequest request) {
         return crackingLifeCycleService.updateCrackTaskState(request);
     }
 
