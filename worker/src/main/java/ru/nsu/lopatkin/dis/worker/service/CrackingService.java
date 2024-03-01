@@ -1,15 +1,17 @@
 package ru.nsu.lopatkin.dis.worker.service;
 
+import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.nsu.lopatkin.dis.models.manager.entity.CrackTask;
 import ru.nsu.lopatkin.dis.models.manager.entity.TaskStatus;
+import ru.nsu.lopatkin.dis.models.worker.request.CrackingTaskStatusUpdateRequest;
 import ru.nsu.lopatkin.dis.models.worker.request.PartialHashCrackingRequest;
 import ru.nsu.lopatkin.dis.models.worker.response.PartialHashCrackingResponse;
 import ru.nsu.lopatkin.dis.worker.service.combination.BaseCombinator;
 import ru.nsu.lopatkin.dis.worker.service.messaging.MessagingService;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CrackingService {
@@ -47,6 +49,7 @@ public class CrackingService {
         for (int i = 0; i < partCount; i++) {
             String combination = getStringRepresentation(baseCombinator.getNextCombination());
 
+            log.info("combination[{}]={}", i, combination);
             if (getMD5Hash(combination).equals(request.getCrackTask().getHash())) {
                 result.add(combination);
             }
@@ -60,7 +63,7 @@ public class CrackingService {
             crackTask.setStatus(TaskStatus.FAILED);
         }
 
-        messagingService.sendTaskToManager(new PartialHashCrackingRequest(request.getRequestId(), request.getTaskId(), crackTask));
+        messagingService.sendTaskToManager(new CrackingTaskStatusUpdateRequest(request.getRequestId(), request.getTaskId(), crackTask.getStatus(), crackTask.getErrorMessage(), crackTask.getData()));
 
     }
 
@@ -74,17 +77,15 @@ public class CrackingService {
     }
 
     private String getMD5Hash(String str) {
-        byte[] bytesOfMessage = str.getBytes(StandardCharsets.US_ASCII);
-
         MessageDigest md = null;
-
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
-        byte[] theMD5digest = md.digest(bytesOfMessage);
-        return new String(theMD5digest);
+        md.update(str.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter
+                .printHexBinary(digest);
     }
 }

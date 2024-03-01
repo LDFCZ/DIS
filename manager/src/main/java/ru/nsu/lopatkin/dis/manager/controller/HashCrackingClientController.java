@@ -1,5 +1,6 @@
 package ru.nsu.lopatkin.dis.manager.controller;
 
+import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import ru.nsu.lopatkin.dis.models.manager.request.HashCrackRequest;
 import ru.nsu.lopatkin.dis.models.manager.response.HashCrackResponse;
 import ru.nsu.lopatkin.dis.models.manager.response.HashCrackStatusResponse;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -39,17 +39,15 @@ public class HashCrackingClientController {
     }
 
     private String getMD5Hash(String str) {
-        byte[] bytesOfMessage = str.getBytes(StandardCharsets.US_ASCII);
-
         MessageDigest md = null;
-
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
-        byte[] theMD5digest = md.digest(bytesOfMessage);
-        return new String(theMD5digest);
+        md.update(str.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter
+                .printHexBinary(digest);
     }
 }

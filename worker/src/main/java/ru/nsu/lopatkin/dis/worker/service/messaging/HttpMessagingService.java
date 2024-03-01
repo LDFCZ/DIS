@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.nsu.lopatkin.dis.models.worker.request.PartialHashCrackingRequest;
+import ru.nsu.lopatkin.dis.models.worker.request.CrackingTaskStatusUpdateRequest;
 import ru.nsu.lopatkin.dis.models.worker.response.CrackingTaskStatusUpdateResponse;
 import ru.nsu.lopatkin.dis.worker.exception.MessagingException;
 
@@ -23,7 +23,7 @@ public class HttpMessagingService implements MessagingService {
     private String baseUrl;
 
     @Override
-    public void sendTaskToManager(PartialHashCrackingRequest request) {
+    public void sendTaskToManager(CrackingTaskStatusUpdateRequest request) {
         ResponseEntity<CrackingTaskStatusUpdateResponse> responseEntity;
         try {
             responseEntity = restTemplate

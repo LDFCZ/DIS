@@ -1,9 +1,9 @@
 package ru.nsu.lopatkin.dis.worker.service.messaging;
 
-import ru.nsu.lopatkin.dis.models.worker.request.PartialHashCrackingRequest;
+import ru.nsu.lopatkin.dis.models.worker.request.CrackingTaskStatusUpdateRequest;
 
 public interface MessagingService {
 
-    void sendTaskToManager(PartialHashCrackingRequest request);
+    void sendTaskToManager(CrackingTaskStatusUpdateRequest request);
 
 }

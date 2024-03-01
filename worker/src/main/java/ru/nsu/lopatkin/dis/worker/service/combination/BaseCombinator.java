@@ -28,6 +28,12 @@ public class BaseCombinator<T> {
     private List<Integer> initFirstCombination(Integer partNumber, Integer partCount, List<?> alphabet) {
         int startPosition = partNumber * partCount - 1;
         List<Integer> startStateArray = new ArrayList<>();
+
+        if (startPosition == -1) {
+            startStateArray.add(-1);
+            return startStateArray;
+        }
+
         while (startPosition > 0) {
             startStateArray.add(startPosition % alphabet.size());
             startPosition = startPosition / alphabet.size();
@@ -59,6 +65,7 @@ public class BaseCombinator<T> {
             }
 
             stateArray.set(i, currentPositionState + 1);
+            break;
         }
 
         return stateArray.stream()
